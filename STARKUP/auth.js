@@ -2,6 +2,8 @@
 // STARKUP — Auth Functions
 // ============================================
 
+const API_BASE = '/api';
+
 const AUTH_TOKEN_KEY = 'starkup_token';
 const AUTH_USER_KEY = 'starkup_user';
 
