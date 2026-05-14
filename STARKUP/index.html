@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STARKUP — Покупка голды Standoff 2</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav class="navbar" id="navbar">
+  <div class="nav-container">
+    <a href="/" class="nav-logo">STARKUP</a>
+    <div class="nav-links" id="navLinks">
+      <a href="/">Главная</a>
+      <a href="#packages">Пакеты</a>
+      <a href="#reviews">Отзывы</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-actions">
+      <a href="/login" class="btn-ghost" id="btnLogin">Войти</a>
+      <a href="/dashboard" class="btn-ghost" id="btnDashboard" style="display:none;">ЛК</a>
+      <button class="mobile-menu-btn" id="mobileMenuBtn">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <h1 class="hero-title">ПОКУПАЙ ГОЛДУ<br>ДЛЯ STANDOFF 2</h1>
+    <p class="hero-subtitle">Быстро. Безопасно. 60 пакетов. Мгновенная доставка.</p>
+    <div class="hero-buttons">
+      <button class="btn-blurple btn-lg" onclick="scrollToPackages()">
+        <i class="fas fa-coins"></i> Смотреть пакеты
+      </button>
+      <a href="#how-it-works" class="btn-white-outline btn-lg">
+        <i class="fas fa-circle-info"></i> Как это работает
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="packages" id="packages">
+  <div class="container">
+    <h2 class="section-title">ВЫБЕРИТЕ ПАКЕТ ГОЛДЫ</h2>
+    <p class="section-subtitle">60 пакетов от 50G до 3000G</p>
+    <div class="packages-grid" id="packagesGrid">
+      <!-- Cards will be rendered by JavaScript -->
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works" id="how-it-works">
+  <div class="container">
+    <h2 class="section-title">КАК ЭТО РАБОТАЕТ</h2>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-icon"><i class="fas fa-hand-pointer"></i></div>
+        <h3 class="step-title">1. Выберите пакет</h3>
+        <p class="step-text">Выберите нужное количество голды из 60 доступных пакетов</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon"><i class="fas fa-credit-card"></i></div>
+        <h3 class="step-title">2. Оплатите</h3>
+        <p class="step-text">Оплатите через Lava.top — быстро и безопасно</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon"><i class="fas fa-clock"></i></div>
+        <h3 class="step-title">3. Дождитесь зачисления</h3>
+        <p class="step-text">Мы начислим голду в течение нескольких минут</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon"><i class="fas fa-gamepad"></i></div>
+        <h3 class="step-title">4. Играйте!</h3>
+        <p class="step-text">Заходите в Standoff 2 и наслаждайтесь покупками</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="reviews">
+  <div class="container">
+    <h2 class="section-title">ОТЗЫВЫ</h2>
+    <div class="reviews-grid" id="reviewsGrid">
+      <!-- Reviews will be loaded from KV -->
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <h2 class="section-title">ЧАСТЫЕ ВОПРОСЫ</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Как купить голду?</span>
+          <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="faq-answer">
+          <p>Выберите пакет, нажмите «Купить», войдите в аккаунт и оплатите через Lava.top. После оплаты голда будет начислена в течение нескольких минут.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Как происходит вывод голды?</span>
+          <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="faq-answer">
+          <p>Вывод осуществляется через рынок Standoff 2. Вы выставляете скин STATTRACK G22 «Flock» по указанной цене, а мы его выкупаем. Комиссия рынка составляет 25%.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Какой курс голды?</span>
+          <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="faq-answer">
+          <p>Текущий курс: 1 голда = 0.77₽. Курс фиксированный для всех пакетов.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Это безопасно?</span>
+          <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="faq-answer">
+          <p>Да. Все платежи проходят через Lava.top — надёжную платёжную систему. Мы не храним ваши платёжные данные.</p>
+        </div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question">
+          <span>Сколько времени занимает доставка?</span>
+          <i class="fas fa-chevron-down"></i>
+        </button>
+        <div class="faq-answer">
+          <p>Обычно голда начисляется в течение 5-15 минут после оплаты. В пиковые часы может занять до 30 минут.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>⚡ STARKUP</h3>
+        <p>Лучший сервис по продаже голды Standoff 2</p>
+      </div>
+      <div class="footer-links">
+        <h4>Навигация</h4>
+        <a href="/">Главная</a>
+        <a href="#packages">Пакеты</a>
+        <a href="#reviews">Отзывы</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="footer-links">
+        <h4>Поддержка</h4>
+        <a href="https://t.me/starkup_support">Telegram</a>
+        <a href="mailto:support@starkup.ru">Email</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 STARKUP. Все права защищены.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.lava.top/widget.js"></script>
+<script src="app.js"></script>
+<script src="auth.js"></script>
+<script>
+  // Render 60 product cards
+  (function() {
+    const grid = document.getElementById('packagesGrid');
+    if (!grid) return;
+
+    const PACKAGES = [
+      { gold: 50, price: 39 }, { gold: 100, price: 77 }, { gold: 150, price: 116 },
+      { gold: 200, price: 154 }, { gold: 250, price: 193 }, { gold: 300, price: 231 },
+      { gold: 350, price: 270 }, { gold: 400, price: 308 }, { gold: 450, price: 347 },
+      { gold: 500, price: 385 }, { gold: 550, price: 424 }, { gold: 600, price: 462 },
+      { gold: 650, price: 501 }, { gold: 700, price: 539 }, { gold: 750, price: 578 },
+      { gold: 800, price: 616 }, { gold: 850, price: 655 }, { gold: 900, price: 693 },
+      { gold: 950, price: 732 }, { gold: 1000, price: 770 }, { gold: 1050, price: 809 },
+      { gold: 1100, price: 847 }, { gold: 1150, price: 886 }, { gold: 1200, price: 924 },
+      { gold: 1250, price: 963 }, { gold: 1300, price: 1001 }, { gold: 1350, price: 1040 },
+      { gold: 1400, price: 1078 }, { gold: 1450, price: 1117 }, { gold: 1500, price: 1155 },
+      { gold: 1550, price: 1194 }, { gold: 1600, price: 1232 }, { gold: 1650, price: 1271 },
+      { gold: 1700, price: 1309 }, { gold: 1750, price: 1348 }, { gold: 1800, price: 1386 },
+      { gold: 1850, price: 1425 }, { gold: 1900, price: 1463 }, { gold: 1950, price: 1502 },
+      { gold: 2000, price: 1540 }, { gold: 2050, price: 1579 }, { gold: 2100, price: 1617 },
+      { gold: 2150, price: 1656 }, { gold: 2200, price: 1694 }, { gold: 2250, price: 1733 },
+      { gold: 2300, price: 1771 }, { gold: 2350, price: 1810 }, { gold: 2400, price: 1848 },
+      { gold: 2450, price: 1887 }, { gold: 2500, price: 1925 }, { gold: 2550, price: 1964 },
+      { gold: 2600, price: 2002 }, { gold: 2650, price: 2041 }, { gold: 2700, price: 2079 },
+      { gold: 2750, price: 2118 }, { gold: 2800, price: 2156 }, { gold: 2850, price: 2195 },
+      { gold: 2900, price: 2233 }, { gold: 2950, price: 2272 }, { gold: 3000, price: 2310 }
+    ];
+
+    grid.innerHTML = PACKAGES.map(pkg => `
+      <div class="product-card">
+        <img src="photo/tovar.png" alt="Голда Standoff 2" class="product-image">
+        <div class="product-info">
+          <h3 class="product-name">${pkg.gold} голды</h3>
+          <p class="product-price">${pkg.price}₽</p>
+          <button class="btn-blurple btn-full" onclick="buyProduct(${pkg.gold}, ${pkg.price})">
+            <i class="fas fa-shopping-cart"></i> Купить
+          </button>
+        </div>
+      </div>
+    `).join('');
+  })();
+
+  // Buy product function
+  function buyProduct(gold, price) {
+    const user = getCurrentUser();
+    if (!user) {
+      window.location.href = '/login';
+      return;
+    }
+
+    const orderId = 'starkup_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+
+    // Save order to KV
+    fetch('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        orderId: orderId,
+        email: user.email,
+        gold: gold,
+        price: price
+      })
+    }).then(() => {
+      // Open Lava.top widget
+      LavaWidget.open({
+        api_key: 'nqUV6nwWdq4EVDQYVzTw0KqXrI1RISSRRfGy8cKRM79MlpVwMDNWH2b1PUxA5eV6',
+        amount: price,
+        order_id: orderId,
+        comment: `Gold SO2 - STARKUP. Email: ${user.email}`,
+        onSuccess: function() {
+          alert('✅ Оплата прошла! Голда будет начислена.');
+          setTimeout(() => {
+            window.location.href = '/dashboard';
+          }, 3000);
+        },
+        onError: function(err) {
+          console.error('Payment error:', err);
+        }
+      });
+    });
+  }
+
+  // Scroll to packages
+  function scrollToPackages() {
+    document.getElementById('packages').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-question').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('active');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+      if (!isOpen) item.classList.add('active');
+    });
+  });
+
+  // Mobile menu
+  document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+
+  // Navbar scroll effect
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    if (window.scrollY > 50) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  });
+
+  // Check auth on load
+  checkAuth().then(user => {
+    if (user) {
+      document.getElementById('btnLogin').style.display = 'none';
+      document.getElementById('btnDashboard').style.display = 'inline-flex';
+    }
+  });
+
+  // Load reviews
+  fetch('/api/reviews')
+    .then(r => r.json())
+    .then(data => {
+      const grid = document.getElementById('reviewsGrid');
+      if (data.reviews && data.reviews.length > 0) {
+        grid.innerHTML = data.reviews.map(r => `
+          <div class="review-card">
+            <div class="review-stars">${'⭐'.repeat(r.stars)}</div>
+            <p class="review-comment">«${r.comment}»</p>
+            <div class="review-author">
+              <span>${r.name || r.email}</span>
+              <span class="review-date">${new Date(r.created_at).toLocaleDateString()}</span>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        grid.innerHTML = '<p class="no-reviews">Пока нет отзывов. Будьте первым!</p>';
+      }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход — STARKUP</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-page">
+  <div class="auth-card">
+    <h1 class="auth-title">ВХОД</h1>
+    <p class="auth-subtitle">Войдите в свой аккаунт STARKUP</p>
+    
+    <form id="loginForm" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" id="email" placeholder="your@email.com" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Пароль</label>
+        <input type="password" class="form-input" id="password" placeholder="••••••••" required>
+      </div>
+      <div class="form-error" id="error"></div>
+      <button type="submit" class="btn-blurple btn-lg btn-full" style="margin-top: 8px;">
+        <i class="fas fa-sign-in-alt"></i> Войти
+      </button>
+    </form>
+    
+    <p class="form-link">Нет аккаунта? <a href="/register">Зарегистрироваться</a></p>
+    <p class="form-link"><a href="/">← На главную</a></p>
+  </div>
+
+  <script src="auth.js"></script>
+  <script>
+    async function handleLogin(e) {
+      e.preventDefault();
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const errorEl = document.getElementById('error');
+      
+      try {
+        await login(email, password);
+      } catch (err) {
+        errorEl.textContent = err.message;
+        errorEl.classList.add('visible');
+      }
+    }
+
+    // Redirect if already logged in
+    checkAuth().then(user => {
+      if (user) window.location.href = '/dashboard';
+    });
+  </script>
+</body>
+</html>

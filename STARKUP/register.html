@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Регистрация — STARKUP</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="auth-page">
+  <div class="auth-card">
+    <h1 class="auth-title">РЕГИСТРАЦИЯ</h1>
+    <p class="auth-subtitle">Создайте аккаунт STARKUP</p>
+    
+    <form id="registerForm" onsubmit="handleRegister(event)">
+      <div class="form-group">
+        <label class="form-label">Имя</label>
+        <input type="text" class="form-input" id="name" placeholder="Ваше имя" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" id="email" placeholder="your@email.com" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Пароль</label>
+        <input type="password" class="form-input" id="password" placeholder="Минимум 6 символов" required minlength="6">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Подтвердите пароль</label>
+        <input type="password" class="form-input" id="confirmPassword" placeholder="Повторите пароль" required>
+      </div>
+      <div class="form-error" id="error"></div>
+      <button type="submit" class="btn-blurple btn-lg btn-full" style="margin-top: 8px;">
+        <i class="fas fa-user-plus"></i> Зарегистрироваться
+      </button>
+    </form>
+    
+    <p class="form-link">Уже есть аккаунт? <a href="/login">Войти</a></p>
+    <p class="form-link"><a href="/">← На главную</a></p>
+  </div>
+
+  <script src="auth.js"></script>
+  <script>
+    async function handleRegister(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      const errorEl = document.getElementById('error');
+      
+      if (password !== confirmPassword) {
+        errorEl.textContent = 'Пароли не совпадают';
+        errorEl.classList.add('visible');
+        return;
+      }
+      
+      if (password.length < 6) {
+        errorEl.textContent = 'Пароль должен быть не менее 6 символов';
+        errorEl.classList.add('visible');
+        return;
+      }
+      
+      try {
+        await register(name, email, password);
+      } catch (err) {
+        errorEl.textContent = err.message;
+        errorEl.classList.add('visible');
+      }
+    }
+
+    checkAuth().then(user => {
+      if (user) window.location.href = '/dashboard';
+    });
+  </script>
+</body>
+</html>
