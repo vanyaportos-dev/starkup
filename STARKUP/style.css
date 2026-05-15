@@ -693,3 +693,227 @@ section { padding: 80px 0; }
   .product-card { flex-direction: column; text-align: center; }
   .product-image { width: 120px; height: 120px; }
 }
+
+/* ============================================
+   SEARCH BOX
+   ============================================ */
+
+.search-box {
+  position: relative;
+  max-width: 400px;
+  margin: 0 auto 32px;
+}
+
+.search-box i {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 16px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 14px 16px 14px 44px;
+  background: var(--bg-card);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-size: 16px;
+  transition: var(--transition);
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+/* ============================================
+   PRODUCT BADGE
+   ============================================ */
+
+.product-card {
+  position: relative;
+  overflow: visible;
+}
+
+.product-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--accent);
+  color: #FFFFFF;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 12px rgba(88, 101, 242, 0.4);
+  z-index: 2;
+}
+
+/* ============================================
+   PRODUCT CARD HOVER
+   ============================================ */
+
+.product-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.product-card:hover {
+  transform: scale(1.02);
+  border-color: var(--accent);
+  box-shadow: 0 12px 40px rgba(88, 101, 242, 0.25);
+}
+
+/* ============================================
+   MODAL
+   ============================================ */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
+  animation: modalIn 0.3s ease;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.9) translateY(10px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255,255,255,0.1);
+  border: none;
+  color: var(--text-primary);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  transition: var(--transition);
+}
+
+.modal-close:hover { background: var(--danger); }
+
+.modal-title {
+  font-size: 24px;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.modal-product-info {
+  margin-bottom: 20px;
+}
+
+.modal-product-detail {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  background: rgba(255,255,255,0.05);
+  border-radius: var(--radius-md);
+  font-size: 15px;
+  color: var(--text-secondary);
+}
+
+.modal-product-detail strong {
+  color: var(--text-primary);
+}
+
+/* ============================================
+   PAYMENT METHODS
+   ============================================ */
+
+.payment-methods {
+  display: flex;
+  gap: 8px;
+}
+
+.payment-method {
+  flex: 1;
+  padding: 12px 8px;
+  background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(255,255,255,0.1);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.payment-method i { font-size: 18px; }
+
+.payment-method:hover { border-color: var(--accent); }
+
+.payment-method.active {
+  border-color: var(--accent);
+  background: rgba(88, 101, 242, 0.15);
+  color: var(--accent);
+}
+
+/* ============================================
+   TOAST
+   ============================================ */
+
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toast {
+  padding: 14px 20px;
+  border-radius: var(--radius-md);
+  font-family: var(--font);
+  font-size: 14px;
+  font-weight: 500;
+  color: #FFFFFF;
+  transition: all 0.3s ease;
+  min-width: 280px;
+  box-shadow: var(--shadow);
+}
+
+.toast-success { background: var(--success); color: #000; }
+.toast-error { background: var(--danger); }
+.toast-info { background: var(--accent); }

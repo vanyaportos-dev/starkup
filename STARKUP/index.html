@@ -15,7 +15,7 @@
 <!-- NAVIGATION -->
 <nav class="navbar" id="navbar">
   <div class="nav-container">
-    <a href="/" class="nav-logo">STARKUP</a>
+    <a href="/" class="nav-logo">⚡ STARKUP</a>
     <div class="nav-links" id="navLinks">
       <a href="/">Главная</a>
       <a href="#packages">Пакеты</a>
@@ -53,9 +53,14 @@
   <div class="container">
     <h2 class="section-title">ВЫБЕРИТЕ ПАКЕТ ГОЛДЫ</h2>
     <p class="section-subtitle">60 пакетов от 50G до 3000G</p>
-    <div class="packages-grid" id="packagesGrid">
-      <!-- Cards will be rendered by JavaScript -->
+    
+    <!-- Search -->
+    <div class="search-box">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Поиск по количеству голды..." oninput="filterProducts()">
     </div>
+    
+    <div class="packages-grid" id="packagesGrid"></div>
   </div>
 </section>
 
@@ -93,7 +98,7 @@
   <div class="container">
     <h2 class="section-title">ОТЗЫВЫ</h2>
     <div class="reviews-grid" id="reviewsGrid">
-      <!-- Reviews will be loaded from KV -->
+      <p class="no-reviews">Пока нет отзывов. Будьте первым!</p>
     </div>
   </div>
 </section>
@@ -109,7 +114,7 @@
           <i class="fas fa-chevron-down"></i>
         </button>
         <div class="faq-answer">
-          <p>Выберите пакет, нажмите «Купить», войдите в аккаунт и оплатите через Lava.top. После оплаты голда будет начислена в течение нескольких минут.</p>
+          <p>Выберите пакет, нажмите «Купить», войдите в аккаунт, заполните данные и оплатите через Lava.top. После оплаты голда будет начислена в течение нескольких минут.</p>
         </div>
       </div>
       <div class="faq-item">
@@ -177,100 +182,261 @@
       <p>&copy; 2026 STARKUP. Все права защищены.</p>
     </div>
   </div>
-</footer>
+</section>
+
+<!-- PURCHASE MODAL -->
+<div class="modal-overlay" id="purchaseModal">
+  <div class="modal-card">
+    <button class="modal-close" onclick="closeModal()">
+      <i class="fas fa-times"></i>
+    </button>
+    <h2 class="modal-title">ОФОРМЛЕНИЕ ЗАКАЗА</h2>
+    
+    <div class="modal-product-info" id="modalProductInfo"></div>
+    
+    <div class="form-group">
+      <label class="form-label">Ваш ник в Standoff 2 *</label>
+      <input type="text" class="form-input" id="playerNick" placeholder="Введите игровой ник" required>
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">Способ оплаты</label>
+      <div class="payment-methods">
+        <button class="payment-method active" data-method="sbp" onclick="selectPayment(this)">
+          <i class="fas fa-qrcode"></i> СБП
+        </button>
+        <button class="payment-method" data-method="card" onclick="selectPayment(this)">
+          <i class="fas fa-credit-card"></i> Карта
+        </button>
+        <button class="payment-method" data-method="crypto" onclick="selectPayment(this)">
+          <i class="fas fa-bitcoin"></i> Крипта
+        </button>
+      </div>
+    </div>
+    
+    <button class="btn-blurple btn-lg btn-full" onclick="confirmPurchase()">
+      <i class="fas fa-check-circle"></i> Оплатить
+    </button>
+  </div>
+</div>
+
+<!-- TOAST NOTIFICATION -->
+<div class="toast-container" id="toastContainer"></div>
 
 <script src="https://cdn.lava.top/widget.js"></script>
 <script src="app.js"></script>
 <script src="auth.js"></script>
 <script>
-  // Render 60 product cards
-  (function() {
+  // ============================================
+  // PRODUCT DATA
+  // ============================================
+  const PACKAGES = [
+    { gold: 50, price: 39, tag: '' },
+    { gold: 100, price: 77, tag: '' },
+    { gold: 150, price: 116, tag: '' },
+    { gold: 200, price: 154, tag: '' },
+    { gold: 250, price: 193, tag: '' },
+    { gold: 300, price: 231, tag: '' },
+    { gold: 350, price: 270, tag: '' },
+    { gold: 400, price: 308, tag: '' },
+    { gold: 450, price: 347, tag: '' },
+    { gold: 500, price: 385, tag: '🔥 Хит' },
+    { gold: 550, price: 424, tag: '' },
+    { gold: 600, price: 462, tag: '' },
+    { gold: 650, price: 501, tag: '' },
+    { gold: 700, price: 539, tag: '' },
+    { gold: 750, price: 578, tag: '' },
+    { gold: 800, price: 616, tag: '' },
+    { gold: 850, price: 655, tag: '' },
+    { gold: 900, price: 693, tag: '' },
+    { gold: 950, price: 732, tag: '' },
+    { gold: 1000, price: 770, tag: '🔥 Хит' },
+    { gold: 1050, price: 809, tag: '' },
+    { gold: 1100, price: 847, tag: '' },
+    { gold: 1150, price: 886, tag: '' },
+    { gold: 1200, price: 924, tag: '' },
+    { gold: 1250, price: 963, tag: '' },
+    { gold: 1300, price: 1001, tag: '' },
+    { gold: 1350, price: 1040, tag: '' },
+    { gold: 1400, price: 1078, tag: '' },
+    { gold: 1450, price: 1117, tag: '' },
+    { gold: 1500, price: 1155, tag: '⚡ Быстро' },
+    { gold: 1550, price: 1194, tag: '' },
+    { gold: 1600, price: 1232, tag: '' },
+    { gold: 1650, price: 1271, tag: '' },
+    { gold: 1700, price: 1309, tag: '' },
+    { gold: 1750, price: 1348, tag: '' },
+    { gold: 1800, price: 1386, tag: '' },
+    { gold: 1850, price: 1425, tag: '' },
+    { gold: 1900, price: 1463, tag: '' },
+    { gold: 1950, price: 1502, tag: '' },
+    { gold: 2000, price: 1540, tag: '🔥 Хит' },
+    { gold: 2050, price: 1579, tag: '' },
+    { gold: 2100, price: 1617, tag: '' },
+    { gold: 2150, price: 1656, tag: '' },
+    { gold: 2200, price: 1694, tag: '' },
+    { gold: 2250, price: 1733, tag: '' },
+    { gold: 2300, price: 1771, tag: '' },
+    { gold: 2350, price: 1810, tag: '' },
+    { gold: 2400, price: 1848, tag: '' },
+    { gold: 2450, price: 1887, tag: '' },
+    { gold: 2500, price: 1925, tag: '💎 Выгодно' },
+    { gold: 2550, price: 1964, tag: '' },
+    { gold: 2600, price: 2002, tag: '' },
+    { gold: 2650, price: 2041, tag: '' },
+    { gold: 2700, price: 2079, tag: '' },
+    { gold: 2750, price: 2118, tag: '' },
+    { gold: 2800, price: 2156, tag: '' },
+    { gold: 2850, price: 2195, tag: '' },
+    { gold: 2900, price: 2233, tag: '' },
+    { gold: 2950, price: 2272, tag: '' },
+    { gold: 3000, price: 2310, tag: '💎 Выгодно' }
+  ];
+
+  let currentProduct = null;
+  let selectedPayment = 'sbp';
+
+  // ============================================
+  // RENDER PRODUCTS
+  // ============================================
+  function renderProducts(filter = '') {
     const grid = document.getElementById('packagesGrid');
-    if (!grid) return;
+    let filtered = PACKAGES;
 
-    const PACKAGES = [
-      { gold: 50, price: 39 }, { gold: 100, price: 77 }, { gold: 150, price: 116 },
-      { gold: 200, price: 154 }, { gold: 250, price: 193 }, { gold: 300, price: 231 },
-      { gold: 350, price: 270 }, { gold: 400, price: 308 }, { gold: 450, price: 347 },
-      { gold: 500, price: 385 }, { gold: 550, price: 424 }, { gold: 600, price: 462 },
-      { gold: 650, price: 501 }, { gold: 700, price: 539 }, { gold: 750, price: 578 },
-      { gold: 800, price: 616 }, { gold: 850, price: 655 }, { gold: 900, price: 693 },
-      { gold: 950, price: 732 }, { gold: 1000, price: 770 }, { gold: 1050, price: 809 },
-      { gold: 1100, price: 847 }, { gold: 1150, price: 886 }, { gold: 1200, price: 924 },
-      { gold: 1250, price: 963 }, { gold: 1300, price: 1001 }, { gold: 1350, price: 1040 },
-      { gold: 1400, price: 1078 }, { gold: 1450, price: 1117 }, { gold: 1500, price: 1155 },
-      { gold: 1550, price: 1194 }, { gold: 1600, price: 1232 }, { gold: 1650, price: 1271 },
-      { gold: 1700, price: 1309 }, { gold: 1750, price: 1348 }, { gold: 1800, price: 1386 },
-      { gold: 1850, price: 1425 }, { gold: 1900, price: 1463 }, { gold: 1950, price: 1502 },
-      { gold: 2000, price: 1540 }, { gold: 2050, price: 1579 }, { gold: 2100, price: 1617 },
-      { gold: 2150, price: 1656 }, { gold: 2200, price: 1694 }, { gold: 2250, price: 1733 },
-      { gold: 2300, price: 1771 }, { gold: 2350, price: 1810 }, { gold: 2400, price: 1848 },
-      { gold: 2450, price: 1887 }, { gold: 2500, price: 1925 }, { gold: 2550, price: 1964 },
-      { gold: 2600, price: 2002 }, { gold: 2650, price: 2041 }, { gold: 2700, price: 2079 },
-      { gold: 2750, price: 2118 }, { gold: 2800, price: 2156 }, { gold: 2850, price: 2195 },
-      { gold: 2900, price: 2233 }, { gold: 2950, price: 2272 }, { gold: 3000, price: 2310 }
-    ];
+    if (filter) {
+      filtered = PACKAGES.filter(p => 
+        p.gold.toString().includes(filter) || 
+        p.price.toString().includes(filter)
+      );
+    }
 
-    grid.innerHTML = PACKAGES.map(pkg => `
-      <div class="product-card">
+    grid.innerHTML = filtered.map(pkg => `
+      <div class="product-card" data-gold="${pkg.gold}">
         <img src="photo/tovar.png" alt="Голда Standoff 2" class="product-image">
+        ${pkg.tag ? `<span class="product-badge">${pkg.tag}</span>` : ''}
         <div class="product-info">
           <h3 class="product-name">${pkg.gold} голды</h3>
           <p class="product-price">${pkg.price}₽</p>
-          <button class="btn-blurple btn-full" onclick="buyProduct(${pkg.gold}, ${pkg.price})">
+          <button class="btn-blurple btn-full" onclick="openPurchaseModal(${pkg.gold}, ${pkg.price})">
             <i class="fas fa-shopping-cart"></i> Купить
           </button>
         </div>
       </div>
     `).join('');
-  })();
+  }
 
-  // Buy product function
-  function buyProduct(gold, price) {
+  // ============================================
+  // SEARCH
+  // ============================================
+  function filterProducts() {
+    const query = document.getElementById('searchInput').value;
+    renderProducts(query);
+  }
+
+  // ============================================
+  // PURCHASE MODAL
+  // ============================================
+  function openPurchaseModal(gold, price) {
     const user = getCurrentUser();
     if (!user) {
       window.location.href = '/login';
       return;
     }
 
+    currentProduct = { gold, price };
+
+    document.getElementById('modalProductInfo').innerHTML = `
+      <div class="modal-product-detail">
+        <span>Товар: <strong>${gold} голды</strong></span>
+        <span>Сумма: <strong>${price}₽</strong></span>
+      </div>
+    `;
+
+    document.getElementById('purchaseModal').classList.add('active');
+  }
+
+  function closeModal() {
+    document.getElementById('purchaseModal').classList.remove('active');
+    currentProduct = null;
+  }
+
+  function selectPayment(btn) {
+    document.querySelectorAll('.payment-method').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedPayment = btn.dataset.method;
+  }
+
+  function confirmPurchase() {
+    const nick = document.getElementById('playerNick').value.trim();
+    if (!nick) {
+      showToast('Введите ваш ник в игре!', 'error');
+      return;
+    }
+
+    const user = getCurrentUser();
     const orderId = 'starkup_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
 
-    // Save order to KV
     fetch('/api/orders', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         orderId: orderId,
         email: user.email,
-        gold: gold,
-        price: price
+        gold: currentProduct.gold,
+        price: currentProduct.price,
+        nick: nick,
+        paymentMethod: selectedPayment
       })
     }).then(() => {
-      // Open Lava.top widget
+      closeModal();
       LavaWidget.open({
         api_key: 'nqUV6nwWdq4EVDQYVzTw0KqXrI1RISSRRfGy8cKRM79MlpVwMDNWH2b1PUxA5eV6',
-        amount: price,
+        amount: currentProduct.price,
         order_id: orderId,
-        comment: `Gold SO2 - STARKUP. Email: ${user.email}`,
+        comment: `Gold SO2 - STARKUP. Player: ${nick}`,
         onSuccess: function() {
-          alert('✅ Оплата прошла! Голда будет начислена.');
-          setTimeout(() => {
-            window.location.href = '/dashboard';
-          }, 3000);
+          showToast('✅ Оплата прошла! Голда будет начислена.', 'success');
+          setTimeout(() => { window.location.href = '/dashboard'; }, 3000);
         },
         onError: function(err) {
-          console.error('Payment error:', err);
+          showToast('❌ Ошибка оплаты. Попробуйте снова.', 'error');
         }
       });
     });
   }
 
-  // Scroll to packages
-  function scrollToPackages() {
-    document.getElementById('packages').scrollIntoView({ behavior: 'smooth' });
+  // ============================================
+  // TOAST NOTIFICATIONS
+  // ============================================
+  function showToast(message, type = 'info') {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `toast toast-${type}`;
+    toast.innerHTML = `<span>${message}</span>`;
+    container.appendChild(toast);
+
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transform = 'translateX(20px)';
+      setTimeout(() => toast.remove(), 300);
+    }, 3000);
   }
 
-  // FAQ accordion
+  // ============================================
+  // INIT
+  // ============================================
+  renderProducts();
+
+  document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+    document.getElementById('navLinks').classList.toggle('open');
+  });
+
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    if (window.scrollY > 50) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  });
+
   document.querySelectorAll('.faq-question').forEach(btn => {
     btn.addEventListener('click', () => {
       const item = btn.parentElement;
@@ -280,22 +446,10 @@
     });
   });
 
-  // Mobile menu
-  document.getElementById('mobileMenuBtn').addEventListener('click', () => {
-    document.getElementById('navLinks').classList.toggle('open');
-  });
+  function scrollToPackages() {
+    document.getElementById('packages').scrollIntoView({ behavior: 'smooth' });
+  }
 
-  // Navbar scroll effect
-  window.addEventListener('scroll', () => {
-    const nav = document.getElementById('navbar');
-    if (window.scrollY > 50) {
-      nav.classList.add('scrolled');
-    } else {
-      nav.classList.remove('scrolled');
-    }
-  });
-
-  // Check auth on load
   checkAuth().then(user => {
     if (user) {
       document.getElementById('btnLogin').style.display = 'none';
@@ -303,7 +457,6 @@
     }
   });
 
-  // Load reviews
   fetch('/api/reviews')
     .then(r => r.json())
     .then(data => {
@@ -319,8 +472,6 @@
             </div>
           </div>
         `).join('');
-      } else {
-        grid.innerHTML = '<p class="no-reviews">Пока нет отзывов. Будьте первым!</p>';
       }
     });
 </script>
